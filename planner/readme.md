@@ -42,14 +42,12 @@ export AMADEUS_CLIENT_ID=[api client Id (Create at https://www.accounts.amadeus.
 export AMADEUS_CLIENT_SECRET=[api client secret (Create at https://www.accounts.amadeus.com/)]
 ```
 
-- Checkout this repo to PLANNER_ROOT
-- Checkout the Airbnb MCP server repo to MCP_ROOT
-- Checkout the Good Listener UI repo to LISTENER_ROOT
- 
+This is a monorepo containing all three components as subfolders (`planner/`, `mcp-server/`, `ui/`). Point the env vars at those subfolders:
+
 ```agsl
-export PLANNER_ROOT=[/path/to/where/you/checkout/project]
-export MCP_ROOT=[/path/to/where/you/checkout/project]
-export LISTENER_ROOT=[/path/to/where/you/checkout/project]
+export PLANNER_ROOT=[/path/to/repo]/planner
+export MCP_ROOT=[/path/to/repo]/mcp-server
+export LISTENER_ROOT=[/path/to/repo]/ui
 
 ```
 - Install `mvn` and Java 21

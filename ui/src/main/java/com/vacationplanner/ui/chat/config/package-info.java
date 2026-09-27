@@ -1,0 +1,1 @@
+package com.vacationplanner.ui.chat.config;
