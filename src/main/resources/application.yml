@@ -1,0 +1,103 @@
+server:
+  servlet:
+    context-path: /planner
+  port: 8080
+
+
+spring:
+  ai:
+# Causing a lot of grief. AutoConfig is configuring tool calling that manual config is not able to replicate.
+#    chat:
+#      client:
+#        enabled: false # Supporting multiple chatModels so disable auto config
+    openai:
+      api-key: <passed from CLI>
+      chat:
+        options:
+          # model: gpt-4o # meh
+          # model: gpt-4o-mini - no significant improvement over gpt-4-0125-preview
+          # model: gpt-4o-2024-11-20 # - Best performance Jul 2025
+          model: gpt-5-mini #
+          # model: o1-preview - does not support FC
+          temperature: 1.0
+      embedding:
+        enabled: true
+    anthropic:
+      api-key: ${ANTHROPIC_API_KEY}
+      chat:
+        options:
+          model: claude-haiku-4-5
+          temperature: 0.3
+          max-tokens: 4000
+    deepseek:
+      api-key: ${DEEPSEEK_API_KEY}
+      chat:
+        options:
+          model: deepseek-chat
+          temperature: 0.3
+    vectorstore:
+      elasticsearch:
+        initialize-schema: true # This creates the index for the embeddings.
+      pgvector:
+        initialize-schema: true
+        index-type: HNSW
+        distance-type: COSINE_DISTANCE
+        dimensions: 1536
+        max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
+    mcp:
+      client:
+        enabled: true
+        name: planner-mcp-client
+        version: 1.0.0
+        request-timeout: 30s
+        type: SYNC
+        sse:
+          connections:
+            airbnb-mcp-server:
+              url: http://localhost:8090
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: user
+    password: password
+
+  elasticsearch:
+    uris: http://localhost:9200
+#    username: elastic
+#    password: changeme
+
+logging:
+  config: classpath:log4j2.xml
+
+rag:
+  topK: 5
+  similarity-threshold: 0.1
+  # Delete previously stored embeddings that are related to the embedding that is currently being processed?
+  delete-previous-related-embeddings: false
+
+weather:
+  visualcrossing:
+    url: https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline
+    apiKey: <passed from CLI>
+
+flight:
+  amadeus:
+    url-root: https://test.api.amadeus.com
+    url-reference-airports: ${flight.amadeus.url-root}/v1/reference-data/locations/airports
+    url-shopping: ${flight.amadeus.url-root}/v2/shopping/flight-offers
+    url-security: ${flight.amadeus.url-root}/v1/security/oauth2/token
+    client-id: <passed from CLI>
+    client-secret: <passed from CLI>
+
+currency-exchange:
+  vat-comply:
+    url: https://api.vatcomply.com/rates
+
+management:
+  endpoint:
+    health:
+      show-details: ALWAYS
+  endpoints:
+    web:
+      exposure:
+        include: '*'
