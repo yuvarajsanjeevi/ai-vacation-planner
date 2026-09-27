@@ -29,7 +29,7 @@ public class MonthlyWeather {
         OptionalDouble averageOptional = days.stream().mapToDouble(d -> {
             return d.temp;
         }).average();
-        return averageOptional.getAsDouble();
+        return averageOptional.orElse(0.0);
     }
 
     public double getAverageMaxTempForMonth() {
@@ -37,7 +37,7 @@ public class MonthlyWeather {
         OptionalDouble averageOptional = days.stream().mapToDouble(d -> {
             return d.tempmax;
         }).average();
-        return averageOptional.getAsDouble();
+        return averageOptional.orElse(0.0);
     }
 
     public double getAverageMinTempForMonth() {
@@ -45,6 +45,6 @@ public class MonthlyWeather {
         OptionalDouble averageOptional = days.stream().mapToDouble(d -> {
             return d.tempmin;
         }).average();
-        return averageOptional.getAsDouble();
+        return averageOptional.orElse(0.0);
     }
 }

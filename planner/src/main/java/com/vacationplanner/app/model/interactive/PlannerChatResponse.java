@@ -35,7 +35,7 @@ public class PlannerChatResponse {
     }
 
     private static String extractConversationId(String response) {
-        if (response.contains("[Conversation ID:")) {
+        if (response != null && response.contains("[Conversation ID:")) {
             int start = response.indexOf("[Conversation ID:") + 17;
             int end = response.indexOf("]", start);
             if (end > start) {
